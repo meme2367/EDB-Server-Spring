@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.rest.mapper.externalServiceMapper">
+
+    <select id = "getAvailableExternalService" resultType="com.example.rest.model.externalService">
+        SELECT idx AS 'external_service_idx',url AS 'url',name AS 'name' FROM external_service;
+    </select>
+
+
+    <select id="getExternalServiceByName" resultType="com.example.rest.model.externalService">
+        SELECT * FROM external_service WHERE name LIKE #{name};
+    </select>
+
+    <insert id="insertExternalService" useGeneratedKeys="true" parameterType="com.example.rest.model.externalService">
+        INSERT INTO external_service(name, url)
+            VALUE (#{name}, #{url});
+    </insert>
+
+    <insert id="insertExternalServiceDetail" useGeneratedKeys="true" parameterType="com.example.rest.model.externalServiceDetail">
+        INSERT INTO external_service_detail(name, external_service_idx)
+            VALUE (#{externalServiceDetailNames}, #{externalServiceIdx});
+    </insert>
+
+    <select id="getExternalServiceByNameAndExternalServiceIdx" resultType="com.example.rest.model.externalService">
+        SELECT * FROM user_external_service WHERE user_idx = #{userIdx} AND external_service_idx = #{externalServiceIdx};
+    </select>
+
+    <insert id="insertUserExternalService" useGeneratedKeys="true" parameterType="com.example.rest.model.externalService">
+        INSERT INTO external_service
+            VALUE (#{userIdx}, #{externalServiceIdx});
+    </insert>
+
+
+    <select id="getUserExternalServiceByUserIdx" resultType="com.example.rest.model.externalService">
+        SELECT user_idx,external_service_idx,name,url
+    FROM user_external_service
+    INNER JOIN external_service ON external_service_idx = idx
+    WHERE user_idx = #{userIdx}
+    GROUP BY external_service_idx;
+    </select>
+
+    <select id="getUserExternalServiceDetailByUserIdxAndExternalServiceIdx" resultType="com.example.rest.model.externalService">
+        SELECT idx AS'external_service_detail_idx',name AS 'name', if_achieve AS 'if_achieve'
+    FROM external_service_detail ed
+    INNER JOIN user_external_service u ON ed.external_service_idx = u.external_service_idx
+    AND ed.idx = u.external_service_detail_idx
+    WHERE u.user_idx = #{userIdx} AND u.external_service_idx = #{externalServiceIdx};
+    </select>
+
+    <update id="updateUserExternalServiceDetail" useGeneratedKeys="true" parameterType="com.example.rest.model.externalService">
+        UPDATE user_external_service SET if_achieve = 1 WHERE external_service_detail_idx= #{externalServiceDetailIdx}
+        AND external_service_idx = #{externalServiceIdx}
+        AND user_idx = #{userIdx};
+    </update>
+
+
+    <delete id="deleteUserExternalService" parameterType="com.example.rest.model.externalService">
+        DELETE FROM user_external_service WHERE user_idx = #{userIdx} AND external_service_idx = #{externalServiceIdx};
+    </delete>
+
+</mapper>
