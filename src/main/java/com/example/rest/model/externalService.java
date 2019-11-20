@@ -2,16 +2,21 @@ package com.example.rest.model;
 
 public class externalService {
 
-    private int id;
+    private int idx;
     private String name;
     private String url;
 
-    public int getId() {
-        return id;
+    externalService(String name,String url){
+        this.name = name;
+        this.url = url;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public int getIdx() {
+        return idx;
+    }
+
+    public void setIdx(int id) {
+        this.idx = idx;
     }
 
     public String getName() {

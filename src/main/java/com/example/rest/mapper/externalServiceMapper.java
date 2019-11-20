@@ -11,9 +11,7 @@ public interface externalServiceMapper {
 
    public List<externalService> getAvailableExternalService();
 
-   public int insertExternalService(String name,String url);
+   public int insertExternalServiceDetail(externalServiceDetail externalServiceDetail);
 
-   public List<externalService> getExternalServiceByName(String name);
-
-   public int insertExternalServiceDetail(String externalServiceDetailNames,int externalServiceIdx);
+   public int insertExternalService(externalService externalService);
 }

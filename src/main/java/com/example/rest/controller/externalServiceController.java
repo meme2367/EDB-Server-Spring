@@ -4,15 +4,16 @@ import com.example.rest.dto.simpleResponse;
 import com.example.rest.model.externalService;
 import com.example.rest.model.externalServiceDetail;
 import com.example.rest.service.externalServiceService;
+import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/external")
 public class externalServiceController {
-    // 외부서비스입력
 
     @Autowired
     private final externalServiceService externalServiceService;
@@ -29,52 +30,35 @@ public class externalServiceController {
         return externalServiceService.getAvailableExternalService();
     }
 
-
-    // SERVICE PROVIDER가 외부 서비스 등록
-////getExternalServiceByName
-    // insertExternalService
-    //insertExternalServiceDetail
-/*
     @PostMapping
-    public simpleResponse insertService(@RequestBody externalServiceDetail externalServiceDetail) {
-        if (externalServiceDetail == null) {
-//등록바디가제대로 안이뤄졋으니 false
-            return simpleResponse.check1;
-        } else {
-                if (externalServiceService.getExternalServiceByName(externalServiceDetail.getExternalService().getName())) {
-//이미 외부서비스로 등록이 되어잇는지
-                    return simpleResponse.check2;
-                } else {
-                    int result = externalServiceService.insertService(externalServiceDetail.getExternalService());
-                    if (result != 0) {
-                        //
-                        return externalServiceService.insertServiceDetail(externalServiceDetail);
-                    } else {
-                        return simpleResponse.check4;
-                    }
+    public simpleResponse insertExternalService(@RequestBody Map<String,Object> param) {
+        String name = (String)param.get("name");
+        String url = (String)param.get("url");
+        String externalServiceDetailNames = (String) param.get("externalServiceDetailNames");
 
-                }
-        }
+        externalServiceDetail externalServiceDetail = new externalServiceDetail(name,url,externalServiceDetailNames);
+
+     return externalServiceService.insertExternalService(externalServiceDetail);
+    }
+
+
+    //getExternalServiceByNameAndExternalServiceIdx
+    //insertUserExternalService
+    ////일반 uSER가 가능한 외부 서비스 목록에서 외부 서비스 등록
+    //router.post("/:externalIdx", authUtil.isLoggedin, async(req, res)=>{
+    //    const {externalIdx} = req.params;
+    //    const userIdx = req.decoded.user_idx;
+/*    @PostMapping(path="/{externalIdx}")
+    public simpleResponse insertUserExternalService(@PathVariable("externalIdx") int externalIdx){
+        return externalServiceService.insertUserExternalService()
     }
 */
-    @PostMapping
-    public simpleResponse insertExternalService(@RequestBody externalServiceDetail externalServiceDetail){
-
-        int externalServiceIdx = externalServiceService.insertExternalService(externalServiceDetail.getName(),externalServiceDetail.getUrl());
-
-        System.out.print("test\n\n");
-        System.out.print(externalServiceIdx);
-        return externalServiceService.insertExternalServiceDetail(externalServiceDetail.getExternalServiceDetailNames(),externalServiceIdx);
-
-    }
 }
 
 
 
 /*
-        //getExternalServiceByNameAndExternalServiceIdx
-        //insertUserExternalService
-        @PostMapping(path="/{externalIdx}")
+
 
 
         //getUserExternalServiceByUserIdx

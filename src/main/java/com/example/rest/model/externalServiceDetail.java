@@ -1,19 +1,34 @@
 package com.example.rest.model;
 
 public class externalServiceDetail {
-    private String externalServiceDetailNames;
-    private String name;
-    private String url;
     private int id;
 
+    private String externalServiceDetailNames;
 
+    //name,url - externalService
+    private externalService externalService;
+    private String name;
+    private String url;
+    private int externalServiceIdx;
 
+    public externalServiceDetail(String name,String url,String externalServiceDetailNames){
+        this.externalService = new externalService(name,url);
+        this.externalServiceDetailNames = externalServiceDetailNames;
+    }
     public void setId(int id) {
         this.id = id;
     }
 
     public int getId() {
         return id;
+    }
+
+    public void setExternalServiceIdx(int externalServiceIdx) {
+        this.externalServiceIdx = externalServiceIdx;
+    }
+
+    public int getExternalServiceIdx() {
+        return externalServiceIdx;
     }
 
     public String getExternalServiceDetailNames() {
@@ -25,18 +40,29 @@ public class externalServiceDetail {
         this.externalServiceDetailNames = externalServiceDetailNames;
     }
 
-    public String getName(){
-        return name;
+    public externalService getExternalService(){
+        return externalService;
+    }
+
+    public void setExternalService(externalService externalService) {
+        this.externalService = externalService;
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.externalService.setName(name);
+
+    }
+
+    public void setUrl(String url){
+        this.externalService.setUrl(url);
+    }
+
+    public String getName(){
+        return externalService.getName();
     }
 
     public String getUrl(){
-        return url;
+        return externalService.getUrl();
     }
-    public void setUrl(String url){
-        this.url = url;
-    }
+
 }

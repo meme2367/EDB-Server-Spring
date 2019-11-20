@@ -12,7 +12,7 @@
         SELECT * FROM external_service WHERE name LIKE #{name};
     </select>
 
-    <insert id="insertExternalService" useGeneratedKeys="true" parameterType="com.example.rest.model.externalService">
+    <insert id="insertExternalService" useGeneratedKeys="true" keyProperty="idx" parameterType="com.example.rest.model.externalService">
         INSERT INTO external_service(name, url)
             VALUE (#{name}, #{url});
     </insert>

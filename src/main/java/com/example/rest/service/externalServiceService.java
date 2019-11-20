@@ -15,6 +15,9 @@ import java.util.List;
  * Service class : 비지니스 로직이 들어가는 서비스 클래스
  * @author MyeongDayeon
  *
+ * [mysql] auto increment 값 초기화
+ * SET @COUNT = 0;
+ * UPDATE external_service_detail SET idx = @COUNT:=@COUNT+1;
  */
 
 @Service
@@ -28,22 +31,13 @@ public class externalServiceService {
         return externalServiceMapper.getAvailableExternalService();
     }
 
-    public int insertExternalService(String name,String url) {
-        int result = externalServiceMapper.insertExternalService(name,url);
+    public simpleResponse insertExternalService(externalServiceDetail externalServiceDetail){
 
-        return result > 0 ? result : 0;
-    }
+        externalServiceDetail.
+                setExternalServiceIdx(externalServiceMapper.insertExternalService(externalServiceDetail.getExternalService()));
 
-    public boolean getExternalServiceByName(String name) {
+        int result = externalServiceMapper.insertExternalServiceDetail(externalServiceDetail);
 
-        List<externalService> result = externalServiceMapper.getExternalServiceByName(name);
-        return result.size() > 0 ? true : false;
-    }
-
-
-    public simpleResponse insertExternalServiceDetail(String externalServiceDetailNames, int externalServiceIdx) {
-        int result = externalServiceMapper.insertExternalServiceDetail(externalServiceDetailNames,externalServiceIdx);
-//문제
-        return result > 0 ? simpleResponse.SUCCESS : simpleResponse.check5;
+        return result > 0 ? simpleResponse.SUCCESS : simpleResponse.FAIL;
     }
 }
