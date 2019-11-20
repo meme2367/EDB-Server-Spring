@@ -144,5 +144,6 @@ buildNumber.properties
 
 
 # config
-src/main/java/com/example/rest/config/
-
+src/main/java/com/example/rest/config/*.java
+src/main/java/com/example/rest/config/AppConfig.java
+src/main/java/com/example/rest/config/jwt.java
